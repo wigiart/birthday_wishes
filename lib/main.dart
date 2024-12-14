@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Importing services for clipboard functionality
 import 'wishes.dart'; // Importing the wishes file
 
 void main() {
@@ -29,7 +30,6 @@ class BirthdayWishesHomeState extends State<BirthdayWishesHome>
   final List<String> relations = ['Friend', 'Sister', 'Brother', 'Mom', 'Dad'];
   String selectedRelation = 'Friend';
 
-  // Directly using the imported wishes map
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -45,9 +45,11 @@ class BirthdayWishesHomeState extends State<BirthdayWishesHome>
   }
 
   void copyWish(String wish) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Copied: $wish')),
-    );
+    Clipboard.setData(ClipboardData(text: wish)).then((_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Copied: $wish')),
+      );
+    });
   }
 
   @override
