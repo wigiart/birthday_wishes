@@ -141,6 +141,11 @@ class BirthdayWishesHomeState extends State<BirthdayWishesHome> {
                       selectedRelation = relation;
                     });
                   },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: selectedRelation == relation
+                        ? Colors.green
+                        : Colors.blue, // Change color based on selection
+                  ),
                   child: Text(relation),
                 );
               }).toList(),
