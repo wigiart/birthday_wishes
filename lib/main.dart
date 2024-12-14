@@ -23,7 +23,8 @@ class BirthdayWishesHome extends StatefulWidget {
   BirthdayWishesHomeState createState() => BirthdayWishesHomeState();
 }
 
-class BirthdayWishesHomeState extends State<BirthdayWishesHome> {
+class BirthdayWishesHomeState extends State<BirthdayWishesHome>
+    with SingleTickerProviderStateMixin {
   final List<String> relations = ['Friend', 'Sister', 'Brother', 'Mom', 'Dad'];
   String selectedRelation = 'Friend';
 
@@ -109,10 +110,29 @@ class BirthdayWishesHomeState extends State<BirthdayWishesHome> {
     ],
   };
 
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+  }
+
   void copyWish(String wish) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Copied: $wish')),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -139,6 +159,8 @@ class BirthdayWishesHomeState extends State<BirthdayWishesHome> {
                   onPressed: () {
                     setState(() {
                       selectedRelation = relation;
+                      _controller.forward(
+                          from: 0.0); // Reset and start animation
                     });
                   },
                   style: ElevatedButton.styleFrom(
@@ -153,21 +175,24 @@ class BirthdayWishesHomeState extends State<BirthdayWishesHome> {
           ),
           // List of Wishes
           Expanded(
-            child: ListView.builder(
-              itemCount: wishes[selectedRelation]?.length ?? 0,
-              itemBuilder: (context, index) {
-                return Card(
-                  margin: const EdgeInsets.all(10),
-                  child: ListTile(
-                    title: Text(wishes[selectedRelation]![index]),
-                    trailing: ElevatedButton(
-                      onPressed: () =>
-                          copyWish(wishes[selectedRelation]![index]),
-                      child: const Text('Copy'),
+            child: FadeTransition(
+              opacity: _animation,
+              child: ListView.builder(
+                itemCount: wishes[selectedRelation]?.length ?? 0,
+                itemBuilder: (context, index) {
+                  return Card(
+                    margin: const EdgeInsets.all(10),
+                    child: ListTile(
+                      title: Text(wishes[selectedRelation]![index]),
+                      trailing: ElevatedButton(
+                        onPressed: () =>
+                            copyWish(wishes[selectedRelation]![index]),
+                        child: const Text('Copy'),
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ],
