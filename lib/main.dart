@@ -121,6 +121,7 @@ class BirthdayWishesHomeState extends State<BirthdayWishesHome>
       vsync: this,
     );
     _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+    _controller.forward(); // Start animation for default selection
   }
 
   void copyWish(String wish) {
@@ -165,8 +166,9 @@ class BirthdayWishesHomeState extends State<BirthdayWishesHome>
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: selectedRelation == relation
-                        ? Colors.green
-                        : Colors.blue, // Change color based on selection
+                        ? const Color.fromARGB(255, 216, 237, 255)
+                        : const Color.fromARGB(255, 255, 255,
+                            255), // Change color based on selection
                   ),
                   child: Text(relation),
                 );
