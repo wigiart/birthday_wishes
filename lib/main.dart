@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Importing services for clipboard functionality
+import 'dart:math';
 import 'wishes.dart'; // Importing the wishes file
+import 'package:confetti/confetti.dart';
 
 void main() {
   runApp(const BirthdayWishesApp());
@@ -31,7 +33,7 @@ class BirthdayWishesHomeState extends State<BirthdayWishesHome>
   String selectedRelation = 'Friend';
 
   late AnimationController _controller;
-  late Animation<double> _animation;
+  late ConfettiController _confettiController;
 
   @override
   void initState() {
@@ -40,8 +42,8 @@ class BirthdayWishesHomeState extends State<BirthdayWishesHome>
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
-    _controller.forward(); // Start animation for default selection
+    _confettiController =
+        ConfettiController(duration: const Duration(seconds: 1));
   }
 
   void copyWish(String wish) {
@@ -49,78 +51,120 @@ class BirthdayWishesHomeState extends State<BirthdayWishesHome>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Copied: $wish')),
       );
+      _confettiController.play();
     });
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _confettiController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          '🎂BIRTHDAY WISHES',
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold), // Title color and bold
-        ),
-        backgroundColor: Colors.blueAccent,
-      ),
-      body: Column(
-        children: [
-          // Relation Selector
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: relations.map((relation) {
-                return ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      selectedRelation = relation;
-                      _controller.forward(
-                          from: 0.0); // Reset and start animation
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: selectedRelation == relation
-                        ? const Color.fromARGB(255, 216, 237, 255)
-                        : const Color.fromARGB(255, 255, 255,
-                            255), // Change color based on selection
-                  ),
-                  child: Text(relation),
-                );
-              }).toList(),
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              '🎂BIRTHDAY WISHES',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold), // Title color and bold
             ),
+            backgroundColor: Colors.blueAccent,
           ),
-          // List of Wishes
-          Expanded(
-            child: FadeTransition(
-              opacity: _animation,
-              child: ListView.builder(
-                itemCount: wishes[selectedRelation]?.length ?? 0,
-                itemBuilder: (context, index) {
-                  return Card(
-                    margin: const EdgeInsets.all(10),
-                    child: ListTile(
-                      title: Text(wishes[selectedRelation]![index]),
-                      trailing: ElevatedButton(
-                        onPressed: () =>
-                            copyWish(wishes[selectedRelation]![index]),
-                        child: const Text('Copy'),
+          body: Column(
+            children: [
+              // Relation Selector
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: relations.map((relation) {
+                    return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: selectedRelation == relation
+                            ? Colors.blue
+                            : Colors.grey,
                       ),
-                    ),
-                  );
-                },
+                      onPressed: () {
+                        setState(() {
+                          selectedRelation = relation;
+                        });
+                      },
+                      child: Text(relation),
+                    );
+                  }).toList(),
+                ),
               ),
-            ),
+              // List of Wishes
+              Expanded(
+                child: ListView.builder(
+                  itemCount: wishes[selectedRelation]!.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(wishes[selectedRelation]![index]),
+                      trailing: TweenAnimationBuilder(
+                        duration: const Duration(milliseconds: 300),
+                        tween: Tween<double>(begin: 1, end: 1),
+                        builder: (context, double value, child) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.blue.withOpacity(0.5),
+                                  blurRadius: value * 10,
+                                  spreadRadius: value * 2,
+                                ),
+                              ],
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                copyWish(wishes[selectedRelation]![index]);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                              ),
+                              child: const Text('Copy'),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: ConfettiWidget(
+            confettiController: _confettiController,
+            blastDirection: pi / 2,
+            maxBlastForce: 5,
+            minBlastForce: 2,
+            emissionFrequency: 0.05,
+            numberOfParticles: 20,
+            gravity: 0.1,
+            shouldLoop: false,
+            colors: const [
+              Colors.green,
+              Colors.blue,
+              Colors.pink,
+              Colors.orange,
+              Colors.purple,
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
