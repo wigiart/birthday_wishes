@@ -113,23 +113,22 @@ class BirthdayWishesHomeState extends State<BirthdayWishesHome>
                   itemCount: wishes[selectedRelation]!.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text(wishes[selectedRelation]![index]),
-                      trailing: TweenAnimationBuilder(
-                        duration: const Duration(milliseconds: 300),
-                        tween: Tween<double>(begin: 1, end: 1),
-                        builder: (context, double value, child) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.blue.withOpacity(0.5),
-                                  blurRadius: value * 10,
-                                  spreadRadius: value * 2,
-                                ),
-                              ],
+                      title: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.blue,
+                              width: 2), // Outline color and width
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.all(
+                            8), // Add padding for better spacing
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(wishes[selectedRelation]![index]),
                             ),
-                            child: ElevatedButton(
+                            ElevatedButton(
                               onPressed: () {
                                 copyWish(wishes[selectedRelation]![index]);
                               },
@@ -141,8 +140,8 @@ class BirthdayWishesHomeState extends State<BirthdayWishesHome>
                               ),
                               child: const Text('Copy'),
                             ),
-                          );
-                        },
+                          ],
+                        ),
                       ),
                     );
                   },
