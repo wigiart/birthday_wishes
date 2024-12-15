@@ -3,6 +3,7 @@ import 'package:flutter/services.dart'; // Importing services for clipboard func
 import 'dart:math';
 import 'wishes.dart'; // Importing the wishes file
 import 'package:confetti/confetti.dart';
+import 'package:url_launcher/url_launcher.dart'; // Import the url_launcher package
 
 void main() {
   runApp(const BirthdayWishesApp());
@@ -122,23 +123,51 @@ class BirthdayWishesHomeState extends State<BirthdayWishesHome>
                         ),
                         padding: const EdgeInsets.all(
                             8), // Add padding for better spacing
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Column(
+                          mainAxisSize: MainAxisSize
+                              .min, // Allow the column to take minimum space
                           children: [
-                            Expanded(
-                              child: Text(wishes[selectedRelation]![index]),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                copyWish(wishes[selectedRelation]![index]);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue,
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 10),
-                              ),
-                              child: const Text('Copy'),
+                            Text(wishes[selectedRelation]![index]),
+                            const SizedBox(
+                                height:
+                                    8), // Add space between text and buttons
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment
+                                  .end, // Align buttons to the right
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.copy),
+                                  color: Colors.blue,
+                                  iconSize: 16, // Smaller icon size
+                                  padding: const EdgeInsets.only(
+                                      right: 2,
+                                      bottom:
+                                          2), // Set right and bottom padding to 2px
+                                  onPressed: () {
+                                    copyWish(wishes[selectedRelation]![index]);
+                                  },
+                                ),
+                                const SizedBox(
+                                    width: 4), // Add space between buttons
+                                IconButton(
+                                  icon: const Icon(Icons.share),
+                                  color: Colors.green,
+                                  iconSize: 16, // Smaller icon size
+                                  padding: const EdgeInsets.only(
+                                      right: 2,
+                                      bottom:
+                                          2), // Set right and bottom padding to 2px
+                                  onPressed: () async {
+                                    final url =
+                                        'https://wa.me/?text=${Uri.encodeComponent(wishes[selectedRelation]![index])}';
+                                    if (await canLaunch(url)) {
+                                      await launch(url);
+                                    } else {
+                                      throw 'Could not launch $url';
+                                    }
+                                  },
+                                ),
+                              ],
                             ),
                           ],
                         ),
