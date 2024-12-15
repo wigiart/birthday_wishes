@@ -81,23 +81,30 @@ class BirthdayWishesHomeState extends State<BirthdayWishesHome>
               // Relation Selector
               Container(
                 padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: relations.map((relation) {
-                    return ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: selectedRelation == relation
-                            ? Colors.blue
-                            : Colors.grey,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          selectedRelation = relation;
-                        });
-                      },
-                      child: Text(relation),
-                    );
-                  }).toList(),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: relations.map((relation) {
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: selectedRelation == relation
+                              ? Colors.blue
+                              : Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            selectedRelation = relation;
+                          });
+                        },
+                        child: Text(
+                          relation,
+                          style: TextStyle(
+                              color: Colors.white), // Set text color to white
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
               // List of Wishes
