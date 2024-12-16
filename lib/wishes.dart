@@ -78,4 +78,32 @@ final Map<String, List<String>> wishes = {
     'Nothing could ever break our special bond. I’m lucky to have such a loving father. Happy birthday!',
     'I can always count on you to lift me when I’m low and encourage me to keep going at my heights. Thank you for being you. Happy birthday, dad.',
   ],
+  'Husband': [
+    'Happy birthday to my wonderful husband! You make every day brighter.',
+    'To the love of my life, may your birthday be filled with joy and laughter.',
+    'Wishing you a birthday as amazing as you are! I love you more than words can say.',
+    'Happy birthday to my partner in crime! Here’s to many more adventures together.',
+    'You are my rock and my greatest support. Happy birthday, my love!',
+  ],
+  'Wife': [
+    'Happy birthday to my beautiful wife! You are my everything.',
+    'To the woman who holds my heart, may your birthday be filled with love and happiness.',
+    'Wishing you a day as special as you are! I love you endlessly.',
+    'Happy birthday to my best friend and soulmate. Here’s to a wonderful year ahead!',
+    'You make my life complete. Happy birthday, my love!',
+  ],
+  'Son': [
+    'Happy birthday to my amazing son! You make us proud every day.',
+    'Wishing you a year filled with adventure and fun. Enjoy your special day!',
+    'To my wonderful son, may your birthday be as awesome as you are!',
+    'Happy birthday! Keep reaching for the stars and never stop dreaming.',
+    'You are loved more than you know. Have a fantastic birthday!',
+  ],
+  'Daughter': [
+    'Happy birthday to my sweet daughter! You light up our lives.',
+    'Wishing you a day filled with joy and laughter. You deserve the best!',
+    'To my beautiful daughter, may your birthday be filled with love and happiness.',
+    'Happy birthday! Keep shining bright and chasing your dreams.',
+    'You are a treasure to our family. Enjoy your special day!',
+  ],
 };

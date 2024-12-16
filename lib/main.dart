@@ -30,7 +30,17 @@ class BirthdayWishesHome extends StatefulWidget {
 
 class BirthdayWishesHomeState extends State<BirthdayWishesHome>
     with SingleTickerProviderStateMixin {
-  final List<String> relations = ['Friend', 'Sister', 'Brother', 'Mom', 'Dad'];
+  final List<String> relations = [
+    'Friend',
+    'Sister',
+    'Brother',
+    'Mom',
+    'Dad',
+    'Husband',
+    'Wife',
+    'Son',
+    'Daughter'
+  ];
   String selectedRelation = 'Friend';
 
   late AnimationController _controller;
