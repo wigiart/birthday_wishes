@@ -10,7 +10,7 @@ void main() {
 }
 
 class BirthdayWishesApp extends StatelessWidget {
-  const BirthdayWishesApp({Key? key}) : super(key: key);
+  const BirthdayWishesApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class BirthdayWishesApp extends StatelessWidget {
 }
 
 class BirthdayWishesHome extends StatefulWidget {
-  const BirthdayWishesHome({Key? key}) : super(key: key);
+  const BirthdayWishesHome({super.key});
 
   @override
   BirthdayWishesHomeState createState() => BirthdayWishesHomeState();
@@ -110,7 +110,7 @@ class BirthdayWishesHomeState extends State<BirthdayWishesHome>
                         },
                         child: Text(
                           relation,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white), // Set text color to white
                         ),
                       );
