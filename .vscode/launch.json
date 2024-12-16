@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "name": "birthday_wishes (Flutter IN Note1)",
+            "program": "lib/main.dart",
+            "deviceId": "D65DHQ6DXKEIXGSG",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}
